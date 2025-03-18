@@ -1,38 +1,58 @@
-#ifndef GRAFO_H 
-#define GRAFO_H 
+#include <vector>   // Para usar std::vector
+#include <utility>  // Para usar std::pair 
   
-#include <iostream>  
-#include <vector>
- 
-using namespace std; 
- 
-typedef int tipoItem; //Vertices são inteiros (eu acho) 
- 
-class Grafo{ 
-private:  
-    int arestaNula; //Número para representar a ausência de arestas na matriz de adjacencia. Tipo, como eu vou saber se não tem aresta ou se o peso dela seria o 0. Aí se o peso for 0, eu coloco a aresta como -1
-    int maxVertices; //Número máximo de vértices. Quando eu for criar um grafo, eu crio um vetor e uma matriz, nessa matriz eu preciso saber qual o tamanho dela e o do vetor max
-    int numVertices; //Importante para saber quantos tem e a sua posição: Ver se alcançou o max de vertices (cheio) e para ver em qual posição colocar no meu vetor de vertices, o primeiro vertice que eu acrescentar vai para a posição 0...
-    tipoItem* vertices; //Vetor de vértices 
-    int** matrizDeAdjacencias; //Dinamico para desalocar a memoria, primeiro cria um vetor que vai representar os vertices e dentro desse vetor terao os outros vetores
+struct Aresta {
+    int u, v, peso;
+    Aresta(int u, int v, int peso) : u(u), v(v), peso(peso) {}
+};
 
-public:  
-    //Construtor: máximo de vertices (tamanho da matriz de adjacencia)
-    Grafo(int max, int valorArestaNula); //Quando eu criar a matriz, já adiciono o valorarestanula em todos os elementos, todos com -1 porque ainda não tem nenhuma aresta 
-    //Destrutor
-    ~Grafo();   
+class Grafo {
+private: 
+    int numVertices;
+    int arestaNula;
+    std::vector<int> vertices;
+    std::vector<Aresta> arestas;
+    std::vector<std::vector<int>> matrizAdj;
+    std::vector<std::vector<int>> matrizInc;
+    std::vector<std::vector<std::pair<int, int>>> listaAdj;
 
-    //Informa o vertice e obtem o indice, se foi o primeiro a ser inserido, ele tem indice 0. 
-    int obterIndice(tipoItem item);  
-    bool estaCheio(); //Num max de grafos 
-    bool estaVazio(); //Vai ser usado para remover vertices e todas suas arestas 
-    void insereVertices(tipoItem); //Precisa só de um vertice
-    void insereAresta(tipoItem noSaida, tipoItem noEntrada, int peso); //Aqui eu preciso de dois vertices. Não importa porque é não direcionado mas fica melhor de entender
-    int obterPeso(tipoItem noSaida, tipoItem noEntrada); 
-    int obterGrau(tipoItem item); //conta na linha a quantidade de números diferentes do valorArestaNula 
-    void imprimirMatriz(); 
-    void imprimirVertices(); 
+public:
+    Grafo(int numVertices, int valorArestaNula = 0);
+
+    void g_form();
+    void g_imprimir(int tipo);
+    void g_form_mAdj();
+    void g_form_lAdj();
+    void g_form_mInc(); 
+    void g_mAdj_form();
+    void g_mAdj_lAdj();
+    void g_mAdj_mInc();
+    void g_mInc_form();
+    void g_mInc_mAdj();
+    void g_mInc_lAdj();
+    void v_remover(int v);
+    void v_incluir(int v);
+    void a_remover(int u, int v);
+    void a_incluir(int u, int v, int peso);
+    bool a_ehAdjacente(int u, int v);
+    bool v_ehAdjacente(int u, int v); 
+    void v_lAdj(int v);
+    void a_lInc(int u, int v);
+    int v_grau(int v);
+    bool g_ehBipartido();
+    bool g_ehCompleto();
+    bool g_ehConexo();
+    bool g_ehMultigrafo();
+    bool g_ehRegular(); 
      
-}; 
- 
-#endif
+    int obterIndice(int item); 
+    bool estaCheio(); 
+    bool estaVazio();
+    int obterPeso(int noSaida, int noEntrada); 
+     
+    void imprimirMatrizAdjacencia();  
+    void imprimirMatrizIncidencia();
+    void imprimirFormalismo(); 
+    void imprimirListaAdjacencia(); 
+
+};
