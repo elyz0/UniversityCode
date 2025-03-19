@@ -3,7 +3,7 @@
   
 struct Aresta {
     int u, v, peso;
-    Aresta(int u, int v, int peso) : u(u), v(v), peso(peso) {}
+    Aresta(int verticeInicio, int verticeFim, int peso) : u(u), v(v), peso(peso) {}
 };
 
 class Grafo {

@@ -210,6 +210,8 @@ int main() {
 
     return 0;
 } 
+ 
+ 
 
 // Construtor da classe Grafo
 Grafo::Grafo(int numVertices, int valorArestaNula) : numVertices(numVertices), arestaNula(valorArestaNula) {
@@ -218,8 +220,10 @@ Grafo::Grafo(int numVertices, int valorArestaNula) : numVertices(numVertices), a
     matrizInc.resize(numVertices);
     listaAdj.resize(numVertices);
 }
+  
  
-//Recebe o grafo pelo formalismo: G(V,(A, w)) 
+
+// **1. Recebe o grafo pelo formalismo: G(V,(A, w)). Ele vai lê o número de vértices e inicializar a estrutura do grafo.**
 void Grafo::g_form() {
 
     cout << "Digite o número de vértices: ";
@@ -230,46 +234,45 @@ void Grafo::g_form() {
         return;
     } 
 
-    // Redimensiona os vetores internos
+    //Redimensiona os vetores internos (estruturas)
     vertices.resize(numVertices);
-    matrizAdj.resize(numVertices, vector<int>(numVertices, arestaNula));
+    matrizAdj.resize(numVertices, vector<int>(numVertices, arestaNula));  
     listaAdj.resize(numVertices);
     matrizInc.resize(numVertices);
-
-    cout << "Digite o número de arestas: ";
-    int numArestas;
-    cin >> numArestas;  
-     
+      
+    //Preenche os vértices {1, 2, ..., n}
     for (int i = 0; i < numVertices; i++) {
         vertices[i] = i+1 ;  //Preenche V com os vértices {1, 2, ..., n}
-    } 
+    }  
+    
+    //Entrada de arestas 
+    int numArestas;
+    cout << "Digite o número de arestas: ";
+    cin >> numArestas;  
   
-     // Lê as arestas
-    cout << "Digite as arestas no formato (u, v, peso):" << endl;
+    //Lê as arestas
+    cout << "Digite as arestas no formato (verticeInicio verticeFinal peso):" << endl;
     for (int i = 0; i < numArestas; i++) {
-        int u, v, peso;
+        int verticeInicio, verticeFim, peso;
         cout << "Aresta " << i + 1 << ": ";
-        cin >> u >> v >> peso;  
+        cin >> verticeInicio >> verticeFim >> peso;  
          
-        // Verifica se os vértices estão dentro dos limites
-        if (u < 1 || u > numVertices || v < 1 || v > numVertices) {
+        //Verifica se os vértices estão dentro dos limites
+        if (verticeInicio < 1 || verticeInicio > numVertices || verticeFim < 1 || verticeFim > numVertices) {
             cout << "Erro: Vértice fora dos limites!" << endl;
-            i--; // Repetir a entrada para esta aresta
+            i--; //Repetir a entrada para esta aresta
             continue;
-        }
-        arestas.push_back(Aresta(u, v, peso));
-    }   
-        
-    // Preencher a matriz de adjacência com os pesos
-    for (auto& aresta : arestas) {
-        // Corrigindo a indexação (subtraindo 1 para ajustar ao índice 0 da matriz)
-        matrizAdj[aresta.u - 1][aresta.v - 1] = aresta.peso;
-        matrizAdj[aresta.v - 1][aresta.u - 1] = aresta.peso; // Grafo não direcionado
-    } 
-     
+        } 
+
+        arestas.emplace_back(verticeInicio, verticeFim, peso); //Antes com push_back(Aresta(u, v, peso)), o objeto Aresta era criado e depois copiado/movido para o vetor arestas. Com emplace_back(u, v, peso)O objeto Aresta é criado diretamente dentro do vetor arestas, sem a necessidade dessa cópia.
+        matrizAdj[verticeInicio - 1][verticeFim - 1] = peso;
+        matrizAdj[verticeFim - 1][verticeInicio - 1] = peso; // Grafo não direcionado
+    }    
 } 
+  
  
-//Imprime toda a matriz
+
+// **2. Para imprimir todos os tipos de **
 void Grafo::g_imprimir(int tipo) { 
     if (tipo == 2) { 
         imprimirFormalismo();
@@ -300,8 +303,10 @@ void Grafo::g_imprimir(int tipo) {
         imprimirListaAdjacencia();
     }
 } 
-   
-// Imprime a matriz de adjacência
+    
+ 
+
+//Imprime a matriz de adjacência
 void Grafo::imprimirMatrizAdjacencia() {
     cout << "Matriz de adjacência gerada:" << endl;
     for (const auto& linha : matrizAdj) {
@@ -311,25 +316,32 @@ void Grafo::imprimirMatrizAdjacencia() {
         cout << endl;
     }
 }   
+  
  
-// Método para imprimir a matriz de incidência
-void Grafo::imprimirMatrizIncidencia() {
-    cout << "Matriz de incidência gerada:" << endl; 
- 
-    //Inicializa a matriz de incidência com o número de vértices e o tamanho das arestas
-    matrizInc.resize(numVertices, vector<int>(arestas.size(), 0));
+
+//Imprime a matriz de incidência
+void Grafo::imprimirMatrizIncidencia() { 
+
+    cout << "Matriz de Incidência gerada:" << endl; 
+  
+    if (arestas.empty()) { //Empty verifica se um vetor, lista ou matriz está vazia. Retorna true se não houver elementos e false caso contrário.
+        cout << "O grafo não possui arestas." << endl;
+        return;
+    } 
+
+    //Inicializa a matriz de incidência (numVertices x numArestas)
+    matrizInc.assign(numVertices, vector<int>(arestas.size(), 0)); //O resize redimensionava, o assign apaga tudo e faz do zero
          
-    // Preenche a matriz de incidência com base nas arestas
-    for (int i = 0; i < arestas.size(); i++) {
-        // Verifica se os índices estão dentro dos limites da matriz
-        if (arestas[i].u >= 1 && arestas[i].u <= numVertices && arestas[i].v >= 1 && arestas[i].v <= numVertices) {
-            matrizInc[arestas[i].u - 1][i] = 1;  // 1 significa que o vértice está na aresta
-            matrizInc[arestas[i].v - 1][i] = 1;  // 1 significa que o vértice está na aresta
-        } else {
-            cout << "Erro: índices inválidos na aresta " << i + 1 << endl;
-        }
+    //Preenche a matriz de incidência com base nas arestas
+    for (size_t i = 0; i < arestas.size(); i++) { //size_t é um tipo de dado sem sinal (unsigned) usado para representar tamanhos de objetos em memória.
+        int u = arestas[i].u - 1; //Convertendo para índice 0-based (arrays começando do zero)
+        int v = arestas[i].v - 1;
+
+        matrizInc[u][i] = 1; // O vértice u está na aresta i
+        matrizInc[v][i] = 1; // O vértice v está na aresta i
     }
-        
+         
+    //Exibe a matriz de incidência
     for (int i = 0; i < numVertices; i++) {
         for (size_t j = 0; j < arestas.size(); j++) {
             cout << matrizInc[i][j] << " ";
@@ -337,75 +349,88 @@ void Grafo::imprimirMatrizIncidencia() {
         cout << endl;
     }
 }
-  
-//Metodo para imprimir em lista de adjacencia
-void Grafo::imprimirListaAdjacencia() { 
-    if (listaAdj.empty()) {
-        cout << "Lista de adjacência vazia!" << endl;
+   
+ 
+
+//Imprime em lista de adjacencia
+void Grafo::imprimirListaAdjacencia() {  
+     
+    cout << "Lista de adjacência:" << endl;  
+
+    if (arestas.empty()) {
+        cout << "O grafo não possui arestas." << endl;
         return;
-    } 
+    }
 
-    cout << "Lista de adjacência:" << endl; 
-
-    for (int i = 0; i < numVertices; i++) {
-        cout << "Vértice " << i + 1 << ": "; // Imprimindo 1-indexed 
+    for (int i = 0; i < listaAdj.size(); i++) { //.size() retorna o número de elementos no vetor listaAdj
+        cout << "Vértice " << i + 1 << ": "; //Imprimindo 1-indexed 
     
-        for (auto& adj : listaAdj[i]) {
+        for (const auto& adj : listaAdj[i]) { //A palavra-chave auto permite que o compilador deduza automaticamente o tipo da variável adj 
             cout << "(" << adj.first << ", peso " << adj.second << ") ";
         }
         cout << endl;
     }
 } 
-  
-// Método para imprimir o formalismo (arestas)
+   
+ 
+
+//Imprime o formalismo (arestas)
 void Grafo::imprimirFormalismo() {
-    cout << "Formalismo do grafo G(V, (A, w)):" << endl;
+    cout << "Formalismo do grafo G(V, (A, w)):" << endl; 
+     
+         //Imprime os vértices
         cout << "Vértices: { ";
         for (int i = 0; i < numVertices; i++) {
             cout << vertices[i] << " ";
         }
         cout << "}" << endl;
-
+ 
+         //Imprime as arestas
         cout << "Arestas: { ";
         for (auto& aresta : arestas) {
             cout << "(" << aresta.u << ", " << aresta.v << ", peso " << aresta.peso << ") ";
         }
         cout << "}" << endl;
 }
+ 
+ 
 
-//Converte formalismo em matriz de Adjacencia
+// **3. Converte formalismo em Matriz de Adjacência**
 void Grafo::g_form_mAdj() {
-    int n = vertices.size();
-    matrizAdj.assign(n, vector<int>(n, 0));
-    for (auto &a : arestas) {
-        int i = a.u - 1, j = a.v - 1; 
-        cout << "Adicionando aresta (" << a.u << ", " << a.v << ", peso " << a.peso << ")\n"; // Debug
-        matrizAdj[i][j] = matrizAdj[j][i] = a.peso;
-    } 
+    
+    matrizAdj.assign(numVertices, vector<int>(numVertices, arestaNula)); 
+    
+    for (const auto& aresta : arestas) {
+        int i = aresta.u - 1, j = aresta.v - 1; 
+        matrizAdj[i][j] = matrizAdj[j][i] = aresta.peso;
+    }  
+
     imprimirMatrizAdjacencia(); 
 } 
+  
  
-//Converte formalismo em lista de Adjacencia
-void Grafo::g_form_lAdj() {  
+
+// **4. Converte formalismo em Lista de Adjacência**
+void Grafo::g_form_lAdj() {   
+
     cout << "Convertendo formalismo para lista de adjacência..." << endl; 
 
     //Redefine a lista de adjacência
-    listaAdj.clear();
-    listaAdj.resize(numVertices); //Redimensiona para o número de vértices
-  
-    cout << "Lista de adjacência redimensionada para " << numVertices << " vértices." << endl;
+    listaAdj.assign(numVertices, vector<pair<int, int>>());
+
     //Preencher a lista de adjacência
     for (const auto& aresta : arestas) {  
-        cout << "Adicionando aresta (" << aresta.u << ", " << aresta.v << ", " << aresta.peso << ")" << endl; 
 
         // Adiciona as arestas à lista de adjacência de ambos os vértices
-        listaAdj[aresta.u - 1].push_back(make_pair(aresta.v, aresta.peso)); // u-1 para ajustar o índice
-        listaAdj[aresta.v - 1].push_back(make_pair(aresta.u, aresta.peso)); // Grafo não direcionado
+        listaAdj[aresta.u - 1].emplace_back(aresta.v, aresta.peso);
+        listaAdj[aresta.v - 1].emplace_back(aresta.u, aresta.peso);
     }
     imprimirListaAdjacencia();  // Após a conversão, imprime a lista de adjacência
 }
+  
  
-//Converte formalismo em matriz de Incidencia
+
+// **5. Converte formalismo em Matriz de Incidência**
 void Grafo::g_form_mInc() {
     int m = arestas.size();
     matrizInc.assign(numVertices, vector<int>(m, 0));
@@ -416,57 +441,67 @@ void Grafo::g_form_mInc() {
     imprimirMatrizIncidencia();
 } 
   
-//Converter matriz de Adj. em formalismo
-void Grafo::g_mAdj_form() { 
-    arestas.clear();
+// **6. Converte matriz de adjacência para formalismo**
+void Grafo::g_mAdj_form() {  
+
+    arestas.clear(); 
+     
+    //Percorre a matriz para extrair as arestas
     for (int i = 0; i < numVertices; i++) {
-        for (int j = 0; j < numVertices; j++) {
+        for (int j = i+1; j < numVertices; j++) { //Evita duplicação no grafo não direcionado
             if (matrizAdj[i][j] != arestaNula) {
-                arestas.push_back(Aresta(i + 1, j + 1, matrizAdj[i][j]));
+                arestas.emplace_back(i + 1, j + 1, matrizAdj[i][j]);
             }
         }
     }  
     imprimirFormalismo();
 }
 
-//Converter matriz de Adj. em lista de Adj.
+// **7. Converte matriz de adjacência para lista de adjacência**
 void Grafo::g_mAdj_lAdj() { 
 
-    listaAdj.clear(); 
-    listaAdj.resize(numVertices); 
+    listaAdj.assign(numVertices, vector<pair<int, int>>());
 
     for (int i = 0; i < numVertices; i++) {
         for (int j = 0; j < numVertices; j++) {
             // Se houver uma aresta entre os vértices i e j (peso diferente de arestaNula)
             if (matrizAdj[i][j] != arestaNula) {
                 // Adiciona o par (vértice adjacente, peso da aresta) à lista de adjacência
-                listaAdj[i].push_back(make_pair(j + 1, matrizAdj[i][j]));
+                listaAdj[i].emplace_back(j + 1, matrizAdj[i][j]);
                 // Como é um grafo não direcionado, adicionar também a aresta inversa
-                listaAdj[j].push_back(make_pair(i + 1, matrizAdj[i][j]));
+                listaAdj[j].push_back(make_pair(i + 1, matrizAdj[i][j])); 
+                listaAdj[j].emplace_back(i + 1, matrizAdj[i][j]);
             }
         }
     } 
 
     imprimirListaAdjacencia();  
 }
+ 
+ 
 
-//Converter matriz de Adj. em matriz de Inc.
+//  **8. Converter matriz de Adj. em matriz de Inc.**
 void Grafo::g_mAdj_mInc() {
-    int m = 0;
+    int numArestas = 0; 
+     
+    //Conta quantas arestas existem (evitando contagem duplicada)
     for (int i = 0; i < numVertices; i++) {
-        for (int j = 0; j < numVertices; j++) {
+        for (int j = i+1; j < numVertices; j++) {
             if (matrizAdj[i][j] != arestaNula) {
-                m++;
+                numArestas++;
             }
         }
     }
+ 
+    //Redimensiona a matriz de incidência
+    matrizInc.assign(numVertices, vector<int>(numArestas, 0)); 
 
-    matrizInc.assign(numVertices, vector<int>(m, 0));
     int arestaIndex = 0;
     for (int i = 0; i < numVertices; i++) {
-        for (int j = 0; j < numVertices; j++) {
+        for (int j = i + 1; j < numVertices; j++) { // Evita repetição
             if (matrizAdj[i][j] != arestaNula) {
-                matrizInc[i][arestaIndex] = matrizInc[j][arestaIndex] = matrizAdj[i][j];
+                matrizInc[i][arestaIndex] = matrizAdj[i][j];
+                matrizInc[j][arestaIndex] = matrizAdj[i][j];
                 arestaIndex++;
             }
         }
