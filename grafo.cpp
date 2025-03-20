@@ -14,7 +14,7 @@ using namespace std;
 int main() {
     int max = 0, valorarestanula = 0;
     Grafo grafo1(max, valorarestanula);
-    int item1, item2;
+    int item1, item2, item3, item4;
     int opcao, valor, peso;
 
     cout << "[ Boas-vindas! ]" << endl << endl;
@@ -64,146 +64,147 @@ int main() {
                 break;
             case 3:
                 grafo1.g_form_mAdj();
-                cout << "Matriz de adjacência gerada.\n";
+                cout << "Matriz de adjacencia gerada.\n";
                 break;
             case 4:
                 grafo1.g_form_lAdj();
-                cout << "Lista de adjacência gerada.\n";
+                cout << "Lista de adjacencia gerada.\n";
                 break;
             case 5:
                 grafo1.g_form_mInc();
-                cout << "Matriz de incidência gerada.\n";
+                cout << "Matriz de incidencia gerada.\n";
                 break;
             case 6:
                 grafo1.g_mAdj_form();
-                cout << "Formalismo gerado a partir da matriz de adjacência.\n";
+                cout << "Formalismo gerado a partir da matriz de adjacencia.\n";
                 break;
             case 7:
                 grafo1.g_mAdj_lAdj();
-                cout << "Lista de adjacência gerada a partir da matriz de adjacência.\n";
+                cout << "Lista de adjacencia gerada a partir da matriz de adjacencia.\n";
                 break;
             case 8:
                 grafo1.g_mAdj_mInc();
-                cout << "Matriz de incidência gerada a partir da matriz de adjacência.\n";
+                cout << "Matriz de incidencia gerada a partir da matriz de adjacencia.\n";
                 break;
             case 9:
                 grafo1.g_mInc_form();
-                cout << "Formalismo gerado a partir da matriz de incidência.\n";
+                cout << "Formalismo gerado a partir da matriz de incidencia.\n";
                 break;
             case 10:
                 grafo1.g_mInc_mAdj();
-                cout << "Matriz de adjacência gerada a partir da matriz de incidência.\n";
+                cout << "Matriz de adjacencia gerada a partir da matriz de incidencia.\n";
                 break;
             case 11:
                 grafo1.g_mInc_lAdj();
-                cout << "Lista de adjacência gerada a partir da matriz de incidência.\n";
+                cout << "Lista de adjacencia gerada a partir da matriz de incidencia.\n";
                 break;
             case 12:
-                cout << "Digite o vértice que será removido:\n";
+                cout << "Digite o vertice que sera removido:\n";
                 cin >> item1;
                 grafo1.v_remover(item1);
                 break;
             case 13:
-                cout << "Digite o vértice que será incluído:\n";
+                cout << "Digite o vertice que sera incluido:\n";
                 cin >> item1;
                 grafo1.v_incluir(item1);
                 break;
             case 14:
-                cout << "Digite o vértice de saída da aresta que será removida:\n";
+                cout << "Digite o vertice de saida da aresta que sera removida:\n";
                 cin >> item1;
-                cout << "Digite o vértice de entrada da aresta que será removida:\n";
+                cout << "Digite o vertice de entrada da aresta que sera removida:\n";
                 cin >> item2;
                 grafo1.a_remover(item1, item2);
                 break;
             case 15:
-                cout << "Digite o vértice de saída da aresta que será incluída:\n";
+                cout << "Digite o vertice de saida da aresta que sera incluida:\n";
                 cin >> item1;
-                cout << "Digite o vértice de entrada da aresta que será incluída:\n";
+                cout << "Digite o vertice de entrada da aresta que sera incluida:\n";
                 cin >> item2;
                 cout << "Digite o peso da aresta:\n";
                 cin >> peso;
                 grafo1.a_incluir(item1, item2, peso);
                 break;
             case 16:
-                cout << "Digite o primeiro vértice:\n";
-                cin >> item1;
-                cout << "Digite o segundo vértice:\n";
-                cin >> item2;
-                if (grafo1.a_ehAdjacente(item1, item2)) {
-                    cout << "Os vértices são adjacentes!\n";
+                cout << "Digite os dois vertices da primeira aresta:\n";
+                cin >> item1 >> item2;
+                cout << "Digite os dois vertices da segunda aresta:\n";
+                cin >> item3 >> item4;
+            
+                if (grafo1.a_ehAdjacente(item1, item2, item3, item4)) {
+                    cout << "As arestas sao adjacentes!\n";
                 } else {
-                    cout << "Os vértices não são adjacentes.\n";
+                    cout << "As arestas nao sao adjacentes.\n";
                 }
                 break;
             case 17:
-                cout << "Digite o primeiro vértice:\n";
+                cout << "Digite o primeiro vertice:\n";
                 cin >> item1;
-                cout << "Digite o segundo vértice:\n";
-                cin >> item2;
+                cout << "Digite o segundo vertice:\n";
+                cin >> item2; 
+
                 if (grafo1.v_ehAdjacente(item1, item2)) {
-                    cout << "Os vértices são adjacentes!\n";
+                    cout << "Os vertices sao adjacentes!\n";
                 } else {
-                    cout << "Os vértices não são adjacentes.\n";
+                    cout << "Os vertices nao sao adjacentes.\n";
                 }
                 break;
             case 18:
-                cout << "Digite o vértice para imprimir sua lista de adjacência:\n";
+                cout << "Digite o vertice para imprimir sua lista de adjacencia:\n";
                 cin >> item1;
                 grafo1.v_lAdj(item1);
                 break;
             case 19:
-                cout << "Digite o vértice de saída da aresta:\n";
-                cin >> item1;
-                cout << "Digite o vértice de entrada da aresta:\n";
-                cin >> item2;
-                grafo1.a_lInc(item1, item2);
+                int aresta;  // Variável para armazenar o número da aresta
+                cout << "Digite o numero da aresta para imprimir os vertices incidentes:\n";
+                cin >> aresta;  // Recebe o número da aresta 
+                grafo1.a_lInc(aresta);  // Chama a função corretamente
                 break;
             case 20:
-                cout << "Digite o vértice para calcular o grau:\n";
+                cout << "Digite o vertice para calcular o grau:\n";
                 cin >> item1;
                 valor = grafo1.v_grau(item1);
-                cout << "O grau do vértice é: " << valor << endl;
+                cout << "O grau do vertice e: " << valor << endl;
                 break;
             case 21:
                 if (grafo1.g_ehBipartido()) {
-                    cout << "O grafo é bipartido!\n";
+                    cout << "O grafo e bipartido!\n";
                 } else {
-                    cout << "O grafo não é bipartido.\n";
+                    cout << "O grafo nao e bipartido.\n";
                 }
                 break;
             case 22:
                 if (grafo1.g_ehCompleto()) {
-                    cout << "O grafo é completo!\n";
+                    cout << "O grafo e completo!\n";
                 } else {
-                    cout << "O grafo não é completo.\n";
+                    cout << "O grafo nao e completo.\n";
                 }
                 break;
             case 23:
                 if (grafo1.g_ehConexo()) {
-                    cout << "O grafo é conexo!\n";
+                    cout << "O grafo e conexo!\n";
                 } else {
-                    cout << "O grafo não é conexo.\n";
+                    cout << "O grafo nao e conexo.\n";
                 }
                 break;
             case 24:
                 if (grafo1.g_ehMultigrafo()) {
-                    cout << "O grafo é multigrafo!\n";
+                    cout << "O grafo e multigrafo!\n";
                 } else {
-                    cout << "O grafo não é multigrafo.\n";
+                    cout << "O grafo nao e multigrafo.\n";
                 }
                 break;
             case 25:
                 if (grafo1.g_ehRegular()) {
-                    cout << "O grafo é regular!\n";
+                    cout << "O grafo e regular!\n";
                 } else {
-                    cout << "O grafo não é regular.\n";
+                    cout << "O grafo nao e regular.\n";
                 }
                 break;
             case 0:
                 cout << "Encerrando o programa...\n";
                 break;
             default:
-                cout << "Opção inválida! Tente novamente.\n";
+                cout << "Opcao invalida! Tente novamente.\n";
                 break;
         }
     } while (opcao != 0);
@@ -226,11 +227,11 @@ Grafo::Grafo(int numVertices, int valorArestaNula) : numVertices(numVertices), a
 // **1. Recebe o grafo pelo formalismo: G(V,(A, w)). Ele vai lê o número de vértices e inicializar a estrutura do grafo.**
 void Grafo::g_form() {
 
-    cout << "Digite o número de vértices: ";
+    cout << "Digite o numero de vertices: ";
     cin >> numVertices;  
 
     if (numVertices <= 0) {
-        cout << "Erro: Número de vértices inválido!" << endl;
+        cout << "Erro: Numero de vertices invalido!" << endl;
         return;
     } 
 
@@ -247,7 +248,7 @@ void Grafo::g_form() {
     
     //Entrada de arestas 
     int numArestas;
-    cout << "Digite o número de arestas: ";
+    cout << "Digite o numero de arestas: ";
     cin >> numArestas;  
   
     //Lê as arestas
@@ -259,7 +260,7 @@ void Grafo::g_form() {
          
         //Verifica se os vértices estão dentro dos limites
         if (verticeInicio < 1 || verticeInicio > numVertices || verticeFim < 1 || verticeFim > numVertices) {
-            cout << "Erro: Vértice fora dos limites!" << endl;
+            cout << "Erro: Vertice fora dos limites!" << endl;
             i--; //Repetir a entrada para esta aresta
             continue;
         } 
@@ -308,7 +309,7 @@ void Grafo::g_imprimir(int tipo) {
 
 //Imprime a matriz de adjacência
 void Grafo::imprimirMatrizAdjacencia() {
-    cout << "Matriz de adjacência gerada:" << endl;
+    cout << "Matriz de adjacencia gerada:" << endl;
     for (const auto& linha : matrizAdj) {
         for (int valor : linha) {
             cout << valor << " ";  // Imprime cada valor na linha
@@ -322,10 +323,10 @@ void Grafo::imprimirMatrizAdjacencia() {
 //Imprime a matriz de incidência
 void Grafo::imprimirMatrizIncidencia() { 
 
-    cout << "Matriz de Incidência gerada:" << endl; 
+    cout << "Matriz de Incidencia gerada:" << endl; 
   
     if (arestas.empty()) { //Empty verifica se um vetor, lista ou matriz está vazia. Retorna true se não houver elementos e false caso contrário.
-        cout << "O grafo não possui arestas." << endl;
+        cout << "O grafo nao possui arestas." << endl;
         return;
     } 
 
@@ -356,15 +357,15 @@ void Grafo::imprimirMatrizIncidencia() {
 //Imprime em lista de adjacencia
 void Grafo::imprimirListaAdjacencia() {  
      
-    cout << "Lista de adjacência:" << endl;  
+    cout << "Lista de adjacencia:" << endl;  
 
     if (arestas.empty()) {
-        cout << "O grafo não possui arestas." << endl;
+        cout << "O grafo nao possui arestas." << endl;
         return;
     }
 
     for (int i = 0; i < listaAdj.size(); i++) { //.size() retorna o número de elementos no vetor listaAdj
-        cout << "Vértice " << i + 1 << ": "; //Imprimindo 1-indexed 
+        cout << "Vertice " << i + 1 << ": "; //Imprimindo 1-indexed 
     
         for (const auto& adj : listaAdj[i]) { //A palavra-chave auto permite que o compilador deduza automaticamente o tipo da variável adj 
             cout << "(" << adj.first << ", peso " << adj.second << ") ";
@@ -380,7 +381,7 @@ void Grafo::imprimirFormalismo() {
     cout << "Formalismo do grafo G(V, (A, w)):" << endl; 
      
          //Imprime os vértices
-        cout << "Vértices: { ";
+        cout << "Vertices: { ";
         for (int i = 0; i < numVertices; i++) {
             cout << vertices[i] << " ";
         }
@@ -414,7 +415,7 @@ void Grafo::imprimirFormalismo() {
 // **4. Converte formalismo em Lista de Adjacência**
 void Grafo::g_form_lAdj() {   
 
-    cout << "Convertendo formalismo para lista de adjacência..." << endl; 
+    cout << "Convertendo formalismo para lista de adjacencia..." << endl; 
 
     //Redefine a lista de adjacência
     listaAdj.assign(numVertices, vector<pair<int, int>>());
@@ -432,9 +433,11 @@ void Grafo::g_form_lAdj() {
  
 
 // **5. Converte formalismo em Matriz de Incidência**
-void Grafo::g_form_mInc() {
+void Grafo::g_form_mInc() { 
+
     int m = arestas.size();
-    matrizInc.assign(numVertices, vector<int>(m, 0));
+    matrizInc.assign(numVertices, vector<int>(m, 0)); 
+
     for (int i = 0; i < m; i++) {
         matrizInc[arestas[i].u - 1][i] = arestas[i].peso;
         matrizInc[arestas[i].v - 1][i] = arestas[i].peso; // Para grafos não direcionados
@@ -610,7 +613,7 @@ void Grafo::v_remover(int v) {
     auto it = find(vertices.begin(), vertices.end(), v); //Esse find é de algorithm e foi a melhor opção para procurar algo em um vetor
      
     if (it == vertices.end()) {
-        cout << "Erro: Vértice " << v << " não encontrado!" << endl;
+        cout << "Erro: Vertice " << v << " nao encontrado!" << endl;
         return;
     }
 
@@ -649,81 +652,105 @@ void Grafo::v_remover(int v) {
     // Atualiza o número de vértices
     numVertices--;
 
-    cout << "Vértice " << v << " removido com sucesso!" << endl;
+    cout << "Vertice " << v << " removido com sucesso!" << endl;
 }
   
  
 
-//  **13.Inclue um v´ertice;
+//  **13. Inclue um vertice**
 void Grafo::v_incluir(int v) {
     if (find(vertices.begin(), vertices.end(), v) == vertices.end()) {
         vertices.push_back(v);
         numVertices++;
     }
 }
+  
  
-//
+
+//**14. Remove uma aresta**
 void Grafo::a_remover(int u, int v) {
     arestas.erase(remove_if(arestas.begin(), arestas.end(), [u, v](const Aresta& a) {
         return (a.u == u && a.v == v) || (a.u == v && a.v == u);
     }), arestas.end());
 }
+  
  
-//
+
+// **15. Inclui uma aresta**
 void Grafo::a_incluir(int u, int v, int peso) {
     arestas.push_back(Aresta(u, v, peso));
 }
+  
  
-//Verificar se duas arestas são adjacentes
-bool Grafo::a_ehAdjacente(int u, int v) {
-    for (auto &a : arestas) {
-        if ((a.u == u && a.v == v) || (a.u == v && a.v == u)) {
-            return true;
-        }
-    }
-    return false;
+
+// **16. Verifica se duas arestas são adjacentes.**
+bool Grafo::a_ehAdjacente(int u1, int v1, int u2, int v2) {
+    return (u1 == u2 || u1 == v2 || v1 == u2 || v1 == v2);
 }
 
-//Verifica se dois vértices são adjacentes
+ 
+ 
+// **17. Verifica se dois vértices são adjacentes.**
 bool Grafo::v_ehAdjacente(int u, int v) {
-    return a_ehAdjacente(u, v);
+    // Verifica se existe uma aresta entre u e v (assumindo 1-based index)
+    if (u < 1 || u > numVertices || v < 1 || v > numVertices) {
+        return false; // Se os vértices estiverem fora do intervalo válido
+    }
+    return matrizAdj[u - 1][v - 1] != arestaNula; // Se houver aresta, retorna true
 }
+ 
+ 
 
-//Imprime a lista de adjacência de um vértice
-void Grafo::v_lAdj(int v) {
-    int indice = v - 1; // Ajuste para índice base 0
+//**18. Imprime a lista de adjacência de um vértice.**
+void Grafo::v_lAdj(int v) { 
+
+    int indice = v - 1; // Ajuste para índice base 0 
+
     if (indice < 0 || indice >= numVertices) {
-        cout << "Vértice inválido!" << endl;
+        cout << "Vertice invalido!" << endl;
         return;
     }
 
-    cout << "Lista de adjacência do vértice " << v << ": ";
-    for (auto &a : arestas) {
+    cout << "Lista de adjacencia do vertice " << v << ": "; 
+     
+    //Percorre todas as arestas
+    for (auto &a : arestas) { 
+        //Verifica se o vértice 'v' é um dos vértices da aresta
         if (a.u == v) {
-            cout << a.v << " ";
+            cout << "(" << a.v << ", peso " << a.peso << ") ";  // Imprime o vértice adjacente e o peso
         } else if (a.v == v) {
-            cout << a.u << " ";
+            cout << "(" << a.u << ", peso " << a.peso << ") ";  // Imprime o vértice adjacente e o peso
         }
     }
     cout << endl;
 }
-
-// a lInc: imprimir os vértices incidentes de uma aresta
-void Grafo::a_lInc(int u, int v) {
-    bool arestaEncontrada = false;
-    for (auto &a : arestas) {
-        if ((a.u == u && a.v == v) || (a.u == v && a.v == u)) {
-            cout << "Vértices incidentes à aresta (" << u << ", " << v << "): " << u << " e " << v << endl;
-            arestaEncontrada = true;
-            break;
-        }
-    }
-    if (!arestaEncontrada) {
-        cout << "Aresta (" << u << ", " << v << ") não encontrada!" << endl;
-    }
-}
  
-//Obtém o grau de um vértice
+ 
+
+// **19. imprime os vértices incidentes de uma aresta.**
+void Grafo::a_lInc(int aresta) {  
+
+    // Verifica se a aresta fornecida está dentro do intervalo válido
+    if (aresta < 1 || aresta > arestas.size()) {
+        cout << "Aresta invalida!" << endl;
+        return;
+    }
+ 
+    // Ajusta para índice 0-based
+    int arestaIndex = aresta - 1; 
+
+    cout << "Vertices incidentes na aresta " << aresta << ": "; 
+     
+      // Obtém os vértices diretamente do vetor de arestas
+      int u = arestas[arestaIndex].u;
+      int v = arestas[arestaIndex].v;
+  
+      cout << u << " " << v << endl;
+}
+  
+ 
+
+// **20. Obtém o grau de um vértice
 int Grafo::v_grau(int v) {
     int grau = 0;
     for (auto &a : arestas) {
@@ -733,8 +760,10 @@ int Grafo::v_grau(int v) {
     }
     return grau;
 } 
+ 
+ 
 
-bool Grafo::g_ehBipartido() {
+bool Grafo::g_ehBipartido() { //O conjunto de vértices que pode ser dividido em dois subconjuntos disjuntos, de forma que nenhuma aresta conecta vértices do mesmo subconjunto. parece que vai ter que ser colorinfo com bfs ou dfs
     vector<int> cor(numVertices, -1);
     queue<int> fila;
     
@@ -762,19 +791,21 @@ bool Grafo::g_ehBipartido() {
     }
     return true;
 }
+ 
+ 
+ 
+// **22. Verifica se o grafo ´e completo.**
+bool Grafo::g_ehCompleto() { //todos os vértices estão conectados entre si. Ou seja, se um grafo tem n vértices, ele deve ter todas as [n(n-1)/2] arestas.  todos os vértices possuem grau n-1
 
-bool Grafo::g_ehCompleto() {
-    for (int i = 0; i < numVertices; i++) {
-        for (int j = i + 1; j < numVertices; j++) {
-            if (matrizAdj[i][j] == arestaNula) {
-                return false;
-            }
+    for (int i = 1; i <= numVertices; i++) {  // Começa do 1 porque os vértices são 1-indexed
+        if (v_grau(i) != numVertices - 1) {  
+            return false;
         }
     }
     return true;
 }
 
-bool Grafo::g_ehConexo() {
+bool Grafo::g_ehConexo() { //Um grafo conexo é aquele onde existe pelo menos um caminho entre qualquer par de vértices.
     vector<bool> visitado(numVertices, false);
     queue<int> fila;
     fila.push(0);
@@ -798,7 +829,7 @@ bool Grafo::g_ehConexo() {
     return true;
 }
 
-bool Grafo::g_ehMultigrafo() {
+bool Grafo::g_ehMultigrafo() { //Um multigrafo é aquele que possui mais de uma aresta conectando o mesmo par de vértices. Além disso, um multigrafo pode conter laços
     for (int i = 0; i < numVertices; i++) {
         for (int j = i + 1; j < numVertices; j++) {
             if (matrizAdj[i][j] != arestaNula && matrizAdj[j][i] != arestaNula) {
@@ -809,7 +840,7 @@ bool Grafo::g_ehMultigrafo() {
     return false;
 }
 
-bool Grafo::g_ehRegular() {
+bool Grafo::g_ehRegular() { //todos os vértices possuem o mesmo grau
     int grau = v_grau(vertices[0]);
     for (int i = 1; i < numVertices; i++) {
         if (v_grau(vertices[i]) != grau) {
@@ -818,7 +849,19 @@ bool Grafo::g_ehRegular() {
     }
     return true;
 }
-
+ 
+ 
+// Obtém o índice de uma aresta no vetor de arestas
+int Grafo::obterIndiceAresta(int u, int v) {
+    for (size_t i = 0; i < arestas.size(); i++) {
+        // Verifica se a aresta conecta os vértices u e v (não direcionado)
+        if ((arestas[i].u == u && arestas[i].v == v) ||
+            (arestas[i].u == v && arestas[i].v == u)) {
+            return i; // Retorna o índice da aresta
+        }
+    }
+    return -1; // Aresta não encontrada
+}
 
 // Obtém o índice de um vértice no vetor de vértices
 int Grafo::obterIndice(int item) {

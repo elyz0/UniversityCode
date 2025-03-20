@@ -3,7 +3,8 @@
   
 struct Aresta {
     int u, v, peso;
-    Aresta(int verticeInicio, int verticeFim, int peso) : u(verticeInicio), v(verticeFim), peso(peso) {}
+    Aresta(int verticeInicio, int verticeFim, int peso) 
+    : u(verticeInicio), v(verticeFim), peso(peso) {} 
 };
 
 class Grafo {
@@ -34,10 +35,10 @@ public:
     void v_incluir(int v);
     void a_remover(int u, int v);
     void a_incluir(int u, int v, int peso);
-    bool a_ehAdjacente(int u, int v);
+    bool a_ehAdjacente(int u2, int v2,int u1, int v1);
     bool v_ehAdjacente(int u, int v); 
     void v_lAdj(int v);
-    void a_lInc(int u, int v);
+    void a_lInc(int aresta);
     int v_grau(int v);
     bool g_ehBipartido();
     bool g_ehCompleto();
@@ -45,7 +46,8 @@ public:
     bool g_ehMultigrafo();
     bool g_ehRegular(); 
      
-    int obterIndice(int item); 
+    int obterIndice(int item);  
+    int obterIndiceAresta(int u, int v);
     bool estaCheio(); 
     bool estaVazio();
     int obterPeso(int noSaida, int noEntrada); 
