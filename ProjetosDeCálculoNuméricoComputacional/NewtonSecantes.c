@@ -23,9 +23,36 @@ double escreverPolinomio(char* polinomio, int grauMax) {
         //atoi converte direto a string para inteiro.
         //strtol também permite saber onde parou, o que ajuda a continuar lendo a string.
         while (isdigit(polinomio[i])) {  
+            temNumero = 1; 
+            //Uma forma de transformar os caracteres em um número 
+            i++;
+        }   
 
+        //Não tem um número logo o coeficiente é 1
+        if (!temNumero) {
+            coeficiente = 1;
         }
+ 
+        coeficiente *= sinal; // aplica o sinal 
+      
+        //Só importa o expoente do X, já que se for expoente de um coeficiente sozinho, vai zerar 
+        int expoente = 0;
+        if (polinomio[i] == 'x') { 
+            i++;  
 
+            if (polinomio[i] == '^') {  
+                while (isdigit(polinomio[i])) {  
+                    //Mesma coisa que eu fizer no primeiro while
+                }
+            } 
+            else {
+                expoente = 1; // x sozinho é x^1
+            }
+        } 
+        else {
+            expoente = 0; // termo sem x
+        }
+        
     }
 }
  
